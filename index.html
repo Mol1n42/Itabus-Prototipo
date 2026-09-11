@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ITABUS - Transporte Público</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo-area">
+
+<img src="logo.png"
+class="logo-img"
+alt="Logo ITABUS">
+
+<div class="logo-texto">
+
+</div>
+
+</div>
+
+
+<div class="acessibilidade">
+    <button class="access-btn" onclick="temaEscuro()">
+    Tema escuro
+    </button>
+
+<button class="access-btn"
+onclick="alterarFonte(1)">
+A+
+</button>
+
+<button class="access-btn"
+onclick="alterarFonte(-1)">
+A-
+</button>
+
+<button class="access-btn"
+onclick="altoContraste()">
+Contraste
+</button>
+
+<button class="access-btn"
+onclick="lerPagina()">
+Leitura de tela
+</button>
+
+<button class="login-btn"
+onclick="abrirLogin()">
+Acesso Restrito
+</button>
+
+</div>
+
+</header>
+
+
+<div class="app">
+
+
+<nav>
+
+<button class="nav-btn ativo"
+onclick="abrirTela('inicio',this)">
+Início
+</button>
+
+<button class="nav-btn"
+onclick="abrirTela('linhas',this)">
+Linhas e Rotas
+</button>
+
+<button class="nav-btn"
+onclick="abrirTela('calcular',this)">
+Calcular Rotas
+</button>
+
+<button class="nav-btn"
+onclick="abrirTela('colaborativo',this)">
+Sistema Colaborativo
+</button>
+
+<button class="nav-btn"
+onclick="abrirTela('favoritos',this)">
+Favoritos
+</button>
+
+<button id="navAdmin" class="nav-btn nav-admin" onclick="abrirTela('gestao',this)">
+    Editar Rotas</button>
+<button id="navConfirmar" class="nav-btn nav-admin" onclick="abrirTela
+('confirmacoes',this)">Confirmar Informações</button>
+<button id="navNotificacoes" class="nav-btn nav-admin" onclick="abrirTela
+('notificacoesRestritas',this)">Notificações</button>
+
+</nav>
+
+
+<main>
+
+
+<!-- =========================================
+INÍCIO
+========================================= -->
+
+<section id="inicio"
+class="tela ativa">
+
+<div class="hero">
+
+<h1>Bem-vindo ao ITABUS</h1>
+
+<p>
+Consulte linhas, horários, rotas e informações
+do transporte público de Itapetininga.
+</p>
+
+</div>
+
+
+<h2 class="titulo">
+Notificações Recentes
+</h2>
+
+
+<div class="notificacoes-grid">
+
+<div id="notificacoesAdminInicio" class="notificacoes-admin-inicio"></div>
+
+</section>
+
+
+<!-- =========================================
+LINHAS
+========================================= -->
+
+<section id="linhas"
+class="tela">
+
+<h1 class="titulo">
+Linhas e Rotas
+</h1>
+
+
+<div class="linhas-layout">
+
+<div id="listaLinhas"
+class="lista-linhas">
+</div>
+
+
+<div id="detalhesLinha"
+class="detalhes-linha">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================
+CALCULAR ROTAS
+========================================= -->
+
+<section id="calcular"
+class="tela">
+
+<h1 class="titulo">
+Calcular Rota
+</h1>
+
+
+<div class="card">
+
+
+<div class="form-group">
+
+<label>
+Origem
+</label>
+
+<input id="origem"
+placeholder="Digite seu local de origem">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Destino
+</label>
+
+<input id="destino"
+placeholder="Digite seu destino">
+
+</div>
+
+
+<div class="form-group">
+
+<button class="btn-secundario"
+onclick="usarLocalAtual()">
+
+Usar localização atual
+
+</button>
+
+<button class="btn-secundario"
+onclick="abrirMapaSelecao()">
+
+Selecionar no mapa
+
+</button>
+
+</div>
+
+
+<h3>
+Horários desejados
+</h3>
+
+<br>
+
+
+<div class="form-group">
+
+<label>
+Horário de partida
+</label>
+
+<input type="time"
+id="horarioPartida">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Horário de chegada
+</label>
+
+<input type="time"
+id="horarioChegada">
+
+</div>
+
+
+<button class="btn-principal"
+onclick="calcularRota()">
+
+CALCULAR ROTA
+
+</button>
+
+
+<div id="resultadoRota"
+class="resultado-rota"
+style="display:none">
+
+<h2>
+Rota recomendada
+</h2>
+
+<br>
+
+
+<!-- MAPA DO RESULTADO -->
+
+<div class="mapa">
+
+<div class="rota-linha"></div>
+
+<div class="ponto-mapa ponto-a"></div>
+
+<div class="ponto-mapa ponto-b"></div>
+
+<div class="ponto-mapa ponto-c"></div>
+
+
+<div class="nome-ponto-mapa nome-a">
+
+Origem
+
+</div>
+
+<div class="nome-ponto-mapa nome-b">
+
+Terminal
+
+</div>
+
+<div class="nome-ponto-mapa nome-c">
+
+Destino
+
+</div>
+
+
+<div class="onibus-marker">
+
+ÔNIBUS
+
+</div>
+
+</div>
+
+
+<br>
+
+
+<div class="rota-completa">
+
+<strong>
+Linha recomendada:
+</strong>
+
+<span id="linhaResultado">
+LINHA 001
+</span>
+
+<br><br>
+
+
+<strong>
+Embarque:
+</strong>
+
+<span id="embarqueResultado">
+Terminal Central
+</span>
+
+<br><br>
+
+
+<strong>
+Desembarque:
+</strong>
+
+<span id="desembarqueResultado">
+Vila Rio Branco
+</span>
+
+<br><br>
+
+
+<strong>
+Partida:
+</strong>
+
+<span id="partidaResultado">
+--:--
+</span>
+
+<br><br>
+
+
+<strong>
+Chegada estimada:
+</strong>
+
+<span id="chegadaResultado">
+--:--
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================
+COLABORATIVO
+========================================= -->
+
+<section id="colaborativo"
+class="tela">
+
+<h1 class="titulo">
+Sistema Colaborativo
+</h1>
+
+
+<div class="card">
+
+<h2>
+Enviar informação
+</h2>
+
+<br>
+
+
+<div class="form-group">
+
+<label>
+Linha
+</label>
+
+<select id="colabLinha">
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Horário
+</label>
+
+<input type="time"
+id="colabHorario">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Informação
+</label>
+
+<select id="colabStatus">
+
+<option>Ônibus vazio</option>
+
+<option>Lotação normal</option>
+
+<option>Ônibus lotado</option>
+
+<option>Adiantado</option>
+
+<option>No horário</option>
+
+<option>Atrasado</option>
+
+</select>
+
+</div>
+
+
+<button class="btn-principal"
+onclick="enviarColaboracao()">
+
+ENVIAR INFORMAÇÃO
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h2>
+Informações da comunidade por linha
+</h2>
+
+<br>
+
+<div id="informacoesComunidade">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================
+FAVORITOS
+========================================= -->
+
+<section id="favoritos"
+class="tela">
+
+<h1 class="titulo">
+Linhas Favoritas
+</h1>
+
+<div id="listaFavoritos"
+class="card">
+
+Nenhuma linha favoritada.
+
+</div>
+
+</section>
+
+
+<!-- =========================================
+GESTÃO ADMIN
+========================================= -->
+<section id="gestao" class="tela">
+<h1 class="titulo">Editar Rotas</h1>
+<div class="admin-info"><h2>Modo Administrador</h2><p>Gerencie linhas, pontos e 
+    horários.
+
+</p></div>
+<div class="card">
+<h2>Adicionar Linha</h2><br>
+<div class="form-group"><label>Nome da linha</label><input id="adminNomeLinha" 
+    placeholder="Ex: LINHA 004"></div>
+<div class="form-group"><label>Descrição</label><input id="adminDescricaoLinha" 
+    placeholder="Ex: Centro - Bairro"></div>
+<h3>Pontos da rota</h3><br>
+<div id="pontosAdmin"><div class="ponto-admin"><input class="nomePonto" 
+    placeholder="Nome do ponto"><label 
+    class="checkbox-principal"><input type="checkbox" 
+    class="pontoPrincipal">Ponto principal</label></div></div>
+<button class="btn-pequeno" onclick="adicionarCampoPonto()">+ Adicionar ponto</button>
+<br><br><h3>Tabela de horários</h3><p>Os pontos principais ficam na primeira 
+    linha e os horários nas linhas seguintes.</p><br>
+<div class="form-group"><label>Dia da semana desta tabela</label><select 
+    id="diaSemana" onchange="carregarTabelaDia()"><option value="Segunda a sexta">
+        Segunda à sexta</option><option value="Segunda-feira">Segunda-feira</option>
+        <option value="Terça-feira">Terça-feira</option><option value="Quarta-feira">
+            Quarta-feira</option><option value="Quinta-feira">Quinta-feira</option>
+            <option value="Sexta-feira">Sexta-feira</option><option value="Sábado">
+                Sábado</option><option value="Domingo / Feriado">Domingo / Feriado</option>
+            </select></div>
+<div id="tabelasDias"></div>
+<div class="tabela-container"><table><thead id="cabecalhoHorariosAdmin"></thead><tbody 
+    id="tabelaHorariosAdmin"></tbody></table></div><br>
+<button class="btn-pequeno" onclick="gerarTabelaHorarios()">Criar tabela</button><button 
+class="btn-pequeno" onclick="adicionarHorarios()">Adicionar nova tabela</button><button 
+class="btn-pequeno" onclick="salvarTabelaDia()">Salvar tabela deste dia</button>
+<br><br><button class="btn-principal" onclick="salvarNovaLinha()">SALVAR LINHA</button>
+</div></section>
+
+<section id="confirmacoes" class="tela"><h1 class="titulo">Confirmar Informações</h1><div 
+    class="card"><h2>Informações pendentes</h2><br><div id="listaPendentes"></div></div>
+</section>
+<section id="notificacoesRestritas" class="tela"><h1 class="titulo">Notificações</h1><div 
+    id="areaNotificacaoAdmin" class="card" style="display:none"><h2>Atualizar notificações
+    </h2><br><div class="form-group"><label>Destinatários</label><select 
+        id="destinoNotificacao" onchange="atualizarDestinoNotificacao()"><option 
+        value="geral">Geral - todas as linhas</option><option value="linha">
+            Linha específica</option></select></div><div id="linhaNotificacaoWrap" 
+            class="form-group" style="display:none"><label>Linha</label><select 
+            id="linhaNotificacao"></select></div><div class="sugestoes-notificacao">
+            <strong>Sugestões de notificações:</strong><br><button 
+            type="button" class="btn-secundario" onclick="usarSugestaoNotificacao
+            ('Ônibus quebrado')">Ônibus quebrado</button><button type="button" 
+            class="btn-secundario" onclick="usarSugestaoNotificacao
+            ('Mudança de horário')">Mudança de horário</button><button 
+            type="button" class="btn-secundario" onclick="usarSugestaoNotificacao
+            ('Mudança de rota')">Mudança de rota</button><button type="button" 
+            class="btn-secundario" onclick="usarSugestaoNotificacao
+            ('Ônibus com horários especiais para festas')">Horários especiais 
+            para festas</button><button type="button" class="btn-secundario" 
+            onclick="usarSugestaoNotificacao('Atraso no atendimento')">Atraso no 
+            atendimento</button></div><textarea id="textoNotificacao" 
+            placeholder="Digite a notificação"></textarea><br><br><button 
+            class="btn-principal" onclick="publicarNotificacao()">
+            PUBLICAR</button><div class="card" style="margin-top:30px">
+            <h3>Notificações publicadas</h3><br><div id="listaNotificacoesAdmin">
+            </div></div></div><div id="areaMotorista" class="card" 
+            style="display:none"><h2>Solicitar notificação para o 
+            administrador</h2><br><textarea id="solicitacaoMotorista" 
+            placeholder="Descreva a notificação solicitada"></textarea>
+            <br><br><button class="btn-principal" onclick="solicitarNotificacao()">
+            ENVIAR SOLICITAÇÃO</button></div><div class="card"><h2>Solicitações 
+            pendentes</h2><br><div id="listaSolicitacoes"></div></div></section>
+</main>
+
+</div>
+
+
+<button id="botaoSairRestrito" class="botao-sair-restrito" onclick="sairModoRestrito()">
+    Sair do acesso restrito</button>
+
+<!-- =========================================
+LOGIN
+========================================= -->
+
+<div id="modalLogin" class="modal">
+<div class="modal-conteudo">
+    <button class="fechar-modal" onclick="fecharLogin()">X</button>
+
+    <h2>Acesso Restrito</h2>
+    <br>
+
+    <div class="form-group">
+        <label for="tipoUsuario">Tipo de acesso</label>
+        <select id="tipoUsuario">
+            <option value="admin">Administrador</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="usuarioAdmin">Usuário</label>
+        <input id="usuarioAdmin" type="text" autocomplete="username" 
+        placeholder="Digite o usuário">
+    </div>
+
+    <div class="form-group">
+        <label for="senhaAdmin">Senha</label>
+        <input id="senhaAdmin" type="password" autocomplete="current-password" 
+        placeholder="Digite a senha">
+    </div>
+
+    <button class="btn-principal" onclick="fazerLogin()">ENTRAR</button>
+
+    <p style="margin-top:15px">
+        <strong>Administrador:</strong> admin / 1234<br>
+    </p>
+</div>
+</div>
+
+<!-- =========================================
+MAPA DE SELEÇÃO
+========================================= -->
+
+<div id="modalMapa"
+class="modal">
+
+<div class="modal-conteudo">
+
+<button class="fechar-modal"
+onclick="fecharMapa()">
+
+X
+
+</button>
+
+
+<h2>
+Selecionar local no mapa
+</h2>
+
+<br>
+
+
+<div class="mapa"
+id="mapaSelecao"
+onclick="selecionarPontoMapa(event)">
+
+<div id="pontoSelecionado"
+class="ponto-mapa"
+style="display:none">
+</div>
+
+</div>
+
+
+<br>
+
+
+<p id="textoMapa">
+
+Clique em algum local do mapa para selecionar.
+
+</p>
+
+
+<br>
+
+
+<button class="btn-principal"
+onclick="confirmarPontoMapa()">
+
+CONFIRMAR LOCAL
+
+</button>
+
+</div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>
